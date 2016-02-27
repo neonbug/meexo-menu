@@ -1,0 +1,15 @@
+{
+	"name": "neonbug/meexo-menu",
+	"description": "Menu package for Meexo CMS",
+	"keywords": ["meexo", "cms", "laravel", "php"],
+	"license": "MIT",
+	"type": "library",
+	"require": {
+		"neonbug/meexo-common": "0.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Neonbug\\Menu\\": "src"
+		}
+	}
+}
