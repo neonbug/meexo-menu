@@ -6,7 +6,6 @@ class MenuRepository {
 	
 	const CONFIG_PREFIX = 'neonbug.menu';
 	
-	protected $latest_items_limit = 20;
 	protected $model;
 	
 	public function __construct()
@@ -14,12 +13,18 @@ class MenuRepository {
 		$this->model = config(static::CONFIG_PREFIX . '.model');
 	}
 	
-	public function getLatest()
+	public function getStructuredItems()
 	{
+		$language      = App::make('Language');
+		$resource_repo = App::make('ResourceRepository');
+		
 		$model = $this->model;
-		return $model::orderBy('updated_at', 'DESC')
-			->limit($this->latest_items_limit)
-			->get();
+		$items = $model::orderBy('ord')->get();
+		$resource_repo->inflateObjectsWithValues($items, $language->id_language);
+		
+		$structured_items = $this->findItems(null, $items);
+		
+		return $structured_items;
 	}
 	
 	public function getForAdminList()
