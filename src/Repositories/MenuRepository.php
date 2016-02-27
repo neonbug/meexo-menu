@@ -42,6 +42,16 @@ class MenuRepository {
 		return $structured_items;
 	}
 	
+	public function getStructuredForAdminDelete()
+	{
+		$model = $this->model;
+		$items = $model::orderBy('ord')->get();
+		
+		$structured_items = $this->findItems(null, $items);
+		
+		return $structured_items;
+	}
+	
 	protected function findItems($parent_item, $items)
 	{
 		$selected_items = [

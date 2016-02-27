@@ -1,6 +1,7 @@
 <?php namespace Neonbug\Menu\Controllers;
 
 use App;
+use Cache;
 use Request;
 
 class AdminController extends \Neonbug\Common\Http\Controllers\BaseAdminController {
@@ -52,6 +53,42 @@ class AdminController extends \Neonbug\Common\Http\Controllers\BaseAdminControll
 		
 		return App::make('\Neonbug\Common\Helpers\CommonHelper')
 			->loadAdminView(self::PREFIX, 'list', $params);
+	}
+	
+	public function adminDeletePost()
+	{
+		$model = $this->getModel();
+		
+		$id   = Request::input('id');
+		$item = $model::findOrFail($id);
+		
+		$item_repo = App::make($this->getRepository());
+		$items = $item_repo->getStructuredForAdminDelete();
+		
+		$delete_ids = $this->findDeleteIds($id, $items['items']);
+		foreach ($delete_ids as $delete_id)
+		{		
+			$this->admin_helper->deleteItem($delete_id, $model, $item->getKeyName());
+			Cache::forget($this->getPackageName() . '::item::' . $item->{$item->getKeyName()});
+		}
+		Cache::forget($this->getPackageName() . '::items');
+		
+		return [ 'success' => true ];
+	}
+	
+	protected function findDeleteIds($id, $items, $add_ids = false, $all_ids = [])
+	{
+		$ids = [];
+		foreach ($items as $item)
+		{
+			$found_id = ($add_ids || ($item['item'] != null && $item['item']->{$item['item']->getKeyName()} == $id));
+			$ids = $this->findDeleteIds($id, $item['items'], $found_id, $ids);
+			if ($found_id)
+			{
+				$ids[] = $item['item']->{$item['item']->getKeyName()};
+			}
+		}
+		return array_merge($ids, $all_ids);
 	}
 	
 }
