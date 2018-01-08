@@ -19,7 +19,7 @@ class MenuRepository {
 		$resource_repo = App::make('ResourceRepository');
 		
 		$model = $this->model;
-		$items = $model::orderBy('ord')->get();
+		$items = $model::where('visible', true)->orderBy('ord')->get();
 		$resource_repo->inflateObjectsWithValues($items, $language->id_language);
 		
 		$structured_items = $this->findItems(null, $items);
