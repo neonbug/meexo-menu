@@ -14,7 +14,7 @@ class CreateMenuTable extends Migration {
 		{
 			$table->increments('id_menu');
 			$table->boolean('visible');
-			$table->integer('parent_id_menu')->nullable();
+			$table->integer('parent_id_menu')->unsigned()->nullable();
 			$table->integer('ord');
 			$table->timestamps();
 			
