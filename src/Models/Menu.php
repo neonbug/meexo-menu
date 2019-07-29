@@ -13,7 +13,8 @@ class Menu extends \Neonbug\Common\Models\BaseModel implements \Neonbug\Common\T
 	public function parseLink($field_name) {
 		if (mb_strlen($this->$field_name) == 0) return '';
 		
-		return preg_match('/^\w+::slug::item-\d+/', $this->$field_name) === 1 ?
+		return preg_match('/^\w+::slug::item-\d+/', $this->$field_name) === 1 ||
+			preg_match('/^\w+::index/', $this->$field_name) === 1 ?
 			route($this->$field_name, [], false) :
 			$this->$field_name;
 	}
