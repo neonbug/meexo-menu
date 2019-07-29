@@ -17,6 +17,9 @@
 			'' : 'desktop-only');
 		$span_style = in_array($field_name, [ 'title' ]) ? 
 			'padding-left: ' . ($level-1)*24 . 'px;' : '';
+		
+		$type = (stripos($field['type'], '::') !== false ? $field['type'] : 
+			'common_admin::list_fields.' . $field['type']);
 		?>
 		<td class="{{ $cls }}">
 			<span style="{{ $span_style }}">
@@ -25,7 +28,7 @@
 						<i class="arrow right icon"></i>
 					@endif
 				@endif
-				@include('common_admin::list_fields.' . $field['type'], 
+				@include($type, 
 					[ 'item' => $item['item'], 'field_name' => $field_name, 'field' => $field, 
 						'route_prefix' => $route_prefix ])
 			</span>

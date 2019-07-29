@@ -4,6 +4,7 @@ use App;
 use Route;
 use View;
 use Config;
+use Event;
 use \Illuminate\Routing\Router as Router;
 
 class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
@@ -116,7 +117,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 				'uses' => static::ADMIN_CONTROLLER . '@adminEditPost'
 			]);
 		});
-
+		
 		$router->group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 'middleware' => [ 'auth.admin' ], 
 			'role' => static::ROLE ], function($router)
 		{
@@ -130,6 +131,11 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 				'uses' => static::ADMIN_CONTROLLER . '@adminCheckSlugPost'
 			]);
 		});
+		
+		//============
+		//== EVENTS ==
+		//============
+		Event::subscribe('\Neonbug\Menu\Handlers\Events\LinkEventHandler');
 
 		parent::boot($router);
 	}

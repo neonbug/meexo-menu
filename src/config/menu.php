@@ -12,7 +12,7 @@
 				'type' => 'text'
 			], 
 			'link' => [
-				'type' => 'text'
+				'type' => 'menu_admin::list_fields.link'
 			], 
 			'updated_at' => [
 				'type' => 'date', 
@@ -38,7 +38,7 @@
 			], 
 			[
 				'name' => 'link', 
-				'type' => 'single_line_text', 
+				'type' => 'menu_admin::add_fields.link', 
 				'value' => ''
 			]
 		], 
@@ -71,7 +71,7 @@
 			], 
 			[
 				'name' => 'link', 
-				'type' => 'single_line_text', 
+				'type' => 'menu_admin::add_fields.link', 
 				'value' => ''
 			]
 		], 
