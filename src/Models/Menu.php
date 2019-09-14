@@ -1,6 +1,7 @@
 <?php namespace Neonbug\Menu\Models;
 
 use App;
+use InvalidArgumentException;
 
 class Menu extends \Neonbug\Common\Models\BaseModel implements \Neonbug\Common\Traits\OrdTraitInterface {
 	
@@ -13,10 +14,16 @@ class Menu extends \Neonbug\Common\Models\BaseModel implements \Neonbug\Common\T
 	public function parseLink($field_name) {
 		if (mb_strlen($this->$field_name) == 0) return '';
 		
-		return preg_match('/^\w+::slug::item-\d+/', $this->$field_name) === 1 ||
-			preg_match('/^\w+::index/', $this->$field_name) === 1 ?
-			route($this->$field_name, [], false) :
-			$this->$field_name;
+		$route = $this->$field_name;
+		try {
+			$route = preg_match('/^\w+::slug::item-\d+/', $this->$field_name) === 1 ||
+				preg_match('/^\w+::index/', $this->$field_name) === 1 ?
+				route($this->$field_name, [], false) :
+				$this->$field_name;
+		}
+		catch (InvalidArgumentException $e) {}
+		
+		return $route;
 	}
 	
 }
