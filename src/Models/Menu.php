@@ -16,7 +16,8 @@ class Menu extends \Neonbug\Common\Models\BaseModel implements \Neonbug\Common\T
 		
 		$route = $this->$field_name;
 		try {
-			$route = preg_match('/^\w+::slug::item-\d+/', $this->$field_name) === 1 ||
+			// if regexes are changed here, they should be changed in LinkEventHandler as well
+			$route = preg_match('/^.+::slug::item-\d+.*$/', $this->$field_name) === 1 ||
 				preg_match('/^\w+::index/', $this->$field_name) === 1 ?
 				route($this->$field_name, [], false) :
 				$this->$field_name;

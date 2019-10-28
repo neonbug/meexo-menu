@@ -65,7 +65,8 @@ class LinkEventHandler
 			$action = $route->getAction();
 			if (array_key_exists('as', $action))
 			{
-				if (preg_match('/^.+::slug::item-\d+$/', $action['as']) === 1 ||
+				// if regexes are changed here, they should be changed in Models/Menu as well
+				if (preg_match('/^.+::slug::item-\d+.*$/', $action['as']) === 1 ||
 					preg_match('/^\w+::index$/', $action['as']) === 1)
 				{
 					$found_route = $routes->getByName($action['as'] . '::' . $route_language);
