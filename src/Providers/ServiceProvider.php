@@ -22,10 +22,9 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 	/**
 	 * Define your route model bindings, pattern filters, etc.
 	 *
-	 * @param    \Illuminate\Routing\Router  $router
 	 * @return  void
 	 */
-	public function boot(Router $router)
+	public function boot()
 	{
 		//============
 		//== ASSETS ==
@@ -63,7 +62,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 		$resource_repo = App::make('ResourceRepository');
 		
 		//frontend
-		$router->group([ 'middleware' => [ 'online' ], 'prefix' => $locale . '/' . 
+		Route::group([ 'middleware' => [ 'online' ], 'prefix' => $locale . '/' . 
 			trans(static::PACKAGE_NAME . '::frontend.route.prefix') ], 
 			function($router) use ($locale, $resource_repo, $language)
 		{
@@ -90,7 +89,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 		});
 		
 		//admin
-		$router->group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 
+		Route::group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 
 			'middleware' => [ 'auth.admin', 'admin.menu' ], 'role' => static::ROLE, 
 			'menu.icon' => 'unordered list' ], function($router)
 		{
@@ -118,7 +117,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 			]);
 		});
 		
-		$router->group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 'middleware' => [ 'auth.admin' ], 
+		Route::group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 'middleware' => [ 'auth.admin' ], 
 			'role' => static::ROLE ], function($router)
 		{
 			$router->post('delete', [
@@ -137,7 +136,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 		//============
 		Event::subscribe('\Neonbug\Menu\Handlers\Events\LinkEventHandler');
 
-		parent::boot($router);
+		parent::boot();
 	}
 
 	/**
