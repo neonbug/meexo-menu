@@ -72,7 +72,7 @@ class LinkEventHandler
 					$found_route = $routes->getByName($action['as'] . '::' . $route_language);
 					if ($found_route !== null)
 					{
-						$found_routes[$action['as'] . '::' . $route_language] = $found_route->getUri();
+						$found_routes[$action['as'] . '::' . $route_language] = $found_route->uri;
 					}
 				}
 			}
