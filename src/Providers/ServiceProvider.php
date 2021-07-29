@@ -92,7 +92,7 @@ class ServiceProvider extends \Neonbug\Common\Providers\BaseServiceProvider {
 		//admin
 		$router->group([ 'prefix' => $admin_locale . '/admin/' . static::PREFIX, 
 			'middleware' => [ 'auth.admin', 'admin.menu' ], 'role' => static::ROLE, 
-			'menu.icon' => 'unordered list' ], function($router)
+			'menu.icon' => 'unordered list', 'weight' => 3 ], function($router)
 		{
 			$router->get('list', [
 				'as'   => static::PREFIX . '::admin::list', 
